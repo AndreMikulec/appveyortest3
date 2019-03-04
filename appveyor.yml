@@ -8,7 +8,6 @@ version: 0.1.0-{build}-{branch}
 environment:
   matrix:
     - ENVVAR: matrix1
-    - ENVVAR: matrix2
 
 install:
   - ps: |
@@ -46,7 +45,6 @@ build_script:
       echo "Begin build_script cmd: environment variables"
       echo %CD%
       dir
-      cd %APPVEYOR_BUILD_FOLDER%
       echo %CD%
       dir
       set BUILD_SCRIPT_CMD=build_script_cmd
@@ -55,7 +53,7 @@ build_script:
       echo %CD%
       set
       echo "%ENVVAR%-%BUILD_SCRIPT_CMD%
-      7z a "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *
+      7z a "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *.bat *.yml
       7z l "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
       echo "End   build_script cmd: environment variables"
 
