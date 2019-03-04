@@ -25,7 +25,7 @@ install:
       echo "Begin install cmd: environment variables"
       echo %CD%
       dir
-      set INSTALL_CMD="install_cmd"
+      set INSTALL_CMD=install_cmd
       set
       install.bat install_parent
       set
@@ -49,7 +49,7 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       echo %CD%
       dir
-      set BUILD_SCRIPT_CMD="build_script_cmd"
+      set BUILD_SCRIPT_CMD=build_script_cmd
       set
       build.bat build_script_parent
       echo %CD%
@@ -65,10 +65,7 @@ after_build:
       echo "Begin after_build cmd"
       echo %CD%
       dir
-      echo %CD%
-      echo $(APPVEYOR_REPO_NAME)
-      echo "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
-      dir
+      set
       echo "End   after_build cmd"
 
 artifacts:
