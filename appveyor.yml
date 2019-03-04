@@ -1,7 +1,7 @@
 
-# collect IP and username for rdp
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# # collect IP and username for rdp
+# init:
+#   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 version: 0.1.0-{build}-{branch}
 
@@ -81,7 +81,7 @@ deploy:
   on:
     branch: master
     # I do not care about tags
-    appveyor_repo_tag: false
+    appveyor_repo_tag: true
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
