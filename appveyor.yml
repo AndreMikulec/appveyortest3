@@ -14,8 +14,8 @@ install:
   - ps: |
       Set-PSDebug -Trace 2
       Write-Output "Begin install ps: environment variables"
-      Get-Location
-      Set-Item -Path Env:INSTALL_PS -Value "install_ps"
+      (Get-Item -Path ".\").FullName
+      env$:INSTALL_PS = "install_ps"
       Get-ChildItem Env:
       Write-Output "End   install ps: environment variables"
 
@@ -33,8 +33,8 @@ build_script:
   - ps: |
       Set-PSDebug -Trace 2
       Write-Output "Begin build_script ps: environment variables"
-      Get-Location
-      Set-Item -Path Env:BUILD_SCRIPT_PS -Value "build_script_ps"
+      (Get-Item -Path ".\").FullName
+      env$:BUILD_SCRIPT_PS = "build_script_ps" 
       Get-ChildItem Env:
       Write-Output "End   build_script ps: environment variables"
 
