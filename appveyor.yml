@@ -15,13 +15,15 @@ install:
       Set-PSDebug -Trace 2
       Write-Output "Begin install ps: environment variables"
       (Get-Item -Path ".\").FullName
-      env$:INSTALL_PS = "install_ps"
+      Get-ChildItem -Path .
+      Set-Item -Path env:INSTALL_PS -Value "install_ps"
       Get-ChildItem Env:
       Write-Output "End   install ps: environment variables"
 
   - cmd: |
       echo on 
       echo %CD%
+      dir
       echo "Begin install cmd: environment variables"
       set INSTALL_CMD="install_cmd"
       set
@@ -34,19 +36,21 @@ build_script:
       Set-PSDebug -Trace 2
       Write-Output "Begin build_script ps: environment variables"
       (Get-Item -Path ".\").FullName
-      env$:BUILD_SCRIPT_PS = "build_script_ps" 
+      Get-ChildItem -Path .
+      Set-Item -Path env:BUILD_SCRIPT_PS -Value "build_script_ps"
       Get-ChildItem Env:
       Write-Output "End   build_script ps: environment variables"
 
   - cmd: |
       echo on 
       echo %CD%
+      dir
       echo "Begin build_script cmd: environment variables"
       set BUILD_SCRIPT_CMD="build_script_cmd"
       set
       build.bat build_script_parent
       set
-      7z "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *
+      7z a "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *
       echo "End   build_script cmd: environment variables"
 
 artifacts:
