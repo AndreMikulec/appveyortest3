@@ -81,7 +81,7 @@ deploy:
   prerelease: false
   on:
     branch: master
-    APPVEYOR_REPO_TAG_NAM: true
+    APPVEYOR_REPO_TAG_NAME: true
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
