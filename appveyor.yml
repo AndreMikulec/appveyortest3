@@ -1,0 +1,71 @@
+
+# collect IP and username for rdp
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+version: 0.1.0-{build}-{branch}
+
+environment:
+  matrix:
+    - ENVVAR: matrix1
+    - ENVVAR: matrix2
+
+install:
+  - ps: |
+      Set-PSDebug -Trace 2
+      Write-Output "Begin install ps: environment variables"
+      Get-Location
+      Set-Item -Path Env:INSTALL_PS -Value "install_ps"
+      Get-ChildItem Env:
+      Write-Output "End   install ps: environment variables"
+
+  - cmd: |
+      echo on 
+      echo %CD%
+      echo "Begin install cmd: environment variables"
+      set INSTALL_CMD="install_cmd"
+      set
+      install.bat install_paret
+      set
+      echo "End   install cmd: environment variables"
+
+build_script:
+  - ps: |
+      Set-PSDebug -Trace 2
+      Write-Output "Begin build_script ps: environment variables"
+      Get-Location
+      Set-Item -Path Env:BUILD_SCRIPT_PS -Value "build_script_ps"
+      Get-ChildItem Env:
+      Write-Output "End   build_script ps: environment variables"
+
+  - cmd: |
+      echo on 
+      echo %CD%
+      echo "Begin build_script cmd: environment variables"
+      set BUILD_SCRIPT_CMD="build_script_cmd"
+      set
+      build.bat build_script_parent
+      set
+      7z "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *
+      echo "End   build_script cmd: environment variables"
+
+artifacts:
+  - path: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
+    name: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
+
+deploy:
+  release: "$(APPVEYOR_PROJECT_SLUG)_$(appveyor_build_version)_%ENVVAR%-%BUILD_SCRIPT_CMD%"
+  provider: GitHub
+  auth_token:
+    secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+  artifact: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
+  draft: false
+  prerelease: false
+  on:
+    branch: master
+    # I do not care about tags
+    appveyor_repo_tag: false
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# # remove locking file from the desktop
