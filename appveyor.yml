@@ -46,8 +46,9 @@ build_script:
       echo "Begin build_script cmd: environment variables"
       echo %CD%
       dir
-      cd $(APPVEYOR_BUILD_FOLDER)
+      cd %APPVEYOR_BUILD_FOLDER%
       echo %CD%
+      dir
       set BUILD_SCRIPT_CMD="build_script_cmd"
       set
       build.bat build_script_parent
