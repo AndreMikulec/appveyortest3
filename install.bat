@@ -1,5 +1,6 @@
 echo on
 echo begin install.bat
+echo %~f0
 echo %1
 set INSTALL_BAT="install_bat" 
 set

@@ -22,12 +22,12 @@ install:
 
   - cmd: |
       echo on 
+      echo "Begin install cmd: environment variables"
       echo %CD%
       dir
-      echo "Begin install cmd: environment variables"
       set INSTALL_CMD="install_cmd"
       set
-      install.bat install_paret
+      install.bat install_parent
       set
       echo "End   install cmd: environment variables"
 
@@ -43,15 +43,32 @@ build_script:
 
   - cmd: |
       echo on 
+      echo "Begin build_script cmd: environment variables"
       echo %CD%
       dir
-      echo "Begin build_script cmd: environment variables"
+      cd $(APPVEYOR_BUILD_FOLDER)
+      echo %CD%
       set BUILD_SCRIPT_CMD="build_script_cmd"
       set
       build.bat build_script_parent
+      echo %CD%
       set
+      echo "%ENVVAR%-%BUILD_SCRIPT_CMD%
       7z a "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip" *
+      7z l "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
       echo "End   build_script cmd: environment variables"
+
+after_build:
+  - cmd: |
+      echo on 
+      echo "Begin after_build cmd"
+      echo %CD%
+      dir
+      echo %CD%
+      echo $(APPVEYOR_REPO_NAME)
+      echo "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
+      dir
+      echo "End   after_build cmd"
 
 artifacts:
   - path: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"

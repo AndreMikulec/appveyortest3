@@ -1,5 +1,6 @@
 echo on 
 echo begin install_by_call.bat
+echo %~f0
 echo %1
 set INSTALL_BAT_BY_CALL="install_bat_by_call"
 set

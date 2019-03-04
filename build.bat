@@ -1,5 +1,6 @@
 echo on
 echo begin build.bat
+echo %~f0
 echo %1
 set BUILD_BAT="build_bat" 
 set
