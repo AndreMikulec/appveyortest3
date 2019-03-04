@@ -72,6 +72,7 @@ artifacts:
 
 deploy:
   release: "$(APPVEYOR_PROJECT_SLUG)_$(appveyor_build_version)_%ENVVAR%-%BUILD_SCRIPT_CMD%"
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   provider: GitHub
   auth_token:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
@@ -80,8 +81,7 @@ deploy:
   prerelease: false
   on:
     branch: master
-    # I do not care about tags
-    appveyor_repo_tag: true
+    APPVEYOR_REPO_TAG_NAM: true
 
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
