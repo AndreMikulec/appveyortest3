@@ -8,6 +8,7 @@ version: 0.1.0-{build}-{branch}
 environment:
   matrix:
     - ENVVAR: matrix1
+    - ENVVAR: matrix2
 
 install:
   - ps: |
@@ -57,7 +58,6 @@ build_script:
       7z l "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
       echo "End   build_script cmd: environment variables"
 
-
 after_build:
   - cmd: |
       echo on 
@@ -73,6 +73,10 @@ after_build:
 artifacts:
   - path: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
     name: "%ENVVAR%-%BUILD_SCRIPT_CMD%.zip"
+
+# https://www.appveyor.com/docs/deployment/github/#promoting-selected-tag-to-github-release
+# https://help.appveyor.com/discussions/problems/21897-trying-to-do-a-simple-github-deploy
+# https://www.appveyor.com/docs/appveyor-yml/
 
 # Do not build on tags (GitHub and BitBucket)
 skip_tags: true
