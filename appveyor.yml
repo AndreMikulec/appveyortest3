@@ -75,7 +75,6 @@ artifacts:
 
 deploy:
   release: "$(APPVEYOR_PROJECT_SLUG)_$(appveyor_build_version)_%ENVVAR%-%BUILD_SCRIPT_CMD%"
-  tag: $(APPVEYOR_REPO_TAG_NAME)
   provider: GitHub
   auth_token:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
