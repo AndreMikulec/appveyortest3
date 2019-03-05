@@ -65,7 +65,7 @@ after_build:
       dir
       set
       set APPVEYOR_REPO_TAG_NAME=%APPVEYOR_PROJECT_SLUG%_%appveyor_build_version%_%ENVVAR%-%BUILD_SCRIPT_CMD%
-      set APPVEYOR_REPO_TAG=true
+      :: APPVEYOR_REPO_TAG=true
       set
       echo "End   after_build cmd"
 
