@@ -23,7 +23,7 @@ install:
   - echo install
   - echo %PGSOURCE%
   # - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
-  - dir %PGSOURCE%
+  # - dir %PGSOURCE%
 
 build_script:
   - cmd: |
