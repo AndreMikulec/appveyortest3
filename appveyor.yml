@@ -27,7 +27,7 @@ install:
 
 build_script:
   - cmd: |
-     sh -l -c " \
-     ls - \\
-     alrt
+     sh -l -c " 
+     ls -alrt
+     echo done
      "
