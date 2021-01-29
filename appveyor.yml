@@ -29,13 +29,20 @@ build_script:
   - sh -l -c "pwd"
   - sh -l -c "mkdir ${PGBUILD}"
   - sh -l -c "ls -alrt"
-  - cmd: |
+  - cmd: >-
+     echo BEGIN CHANGE TO DIR
+
      sh -l -c "
+
      pwd
+
      echo     ${PGBUILD}
+
      ls -alrt ${PGBUILD}
+
      cd       ${PGBUILD}
-     echo done "
+
+     echo END CHANGE TO DIR "
 
 after_build:
   - echo after_build
