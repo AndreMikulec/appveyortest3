@@ -15,6 +15,7 @@ image: Visual Studio 2019
 environment:
   PGSOURCE: $(APPVEYOR_BUILD_FOLDER)\postgres
   PGBUILD: $(APPVEYOR_BUILD_FOLDER)\PGBUILD
+  PGEXTRABUILD: $(PGBUILD)\EXTRA
   matrix:
     - MSYSTEM: MINGW64
       PG_GIT_BRANCH: REL_13_STABLE
@@ -27,11 +28,13 @@ install:
 
 build_script:
   - sh -l -c "echo ${PGBUILD}"
+  - sh -l -c "echo ${PGEXTRABUILD}"
   - :: BEGINNING WORK . . .
   - sh -l -c "alias shh=\"sh -l -c\""
   - sh -l -c "pwd"
   - sh -l -c "mkdir ${PGBUILD}"
   - sh -l -c "cd ${PGBUILD};   pwd"
+  - sh -l -c "cd ${PGBUILD}/WRONG;   pwd"
   - sh -l -c "cd ${PGBUILD} && pwd
   - sh -l -c "export ALPHA=${PGBUILD}"
   - sh -l -c "echo ${ALPHA}"
