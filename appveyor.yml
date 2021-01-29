@@ -1,0 +1,22 @@
+
+version: 0.1.0-{build}-{branch}
+
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+
+# Start builds on tags only (GitHub and BitBucket)
+# skip_non_tags: true
+
+branches:
+  only:
+    - master
+
+environment:
+  PGSOURCE: $(APPVEYOR_BUILD_FOLDER)\postgres
+  matrix:
+    - MSYSTEM: MINGW64
+      PG_GIT_BRANCH: REL_13_STABLE
+
+install:
+  - echo %PGSOURCE%
+  # - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
