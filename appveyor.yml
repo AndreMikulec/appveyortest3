@@ -11,6 +11,8 @@ branches:
   only:
     - master
 
+image: Visual Studio 2019
+
 environment:
   PGSOURCE: $(APPVEYOR_BUILD_FOLDER)\postgres
   matrix:
@@ -18,5 +20,10 @@ environment:
       PG_GIT_BRANCH: REL_13_STABLE
 
 install:
+
+  - echo install
   - echo %PGSOURCE%
   # - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
+
+build_script:
+  - echo build_script
