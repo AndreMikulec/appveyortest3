@@ -31,6 +31,8 @@ build_script:
   - sh -l -c "alias shh=\"sh -l -c\""
   - sh -l -c "pwd"
   - sh -l -c "mkdir ${PGBUILD}"
+  - sh -l -c "cd ${PGBUILD};   pwd"
+  - sh -l -c "cd ${PGBUILD} && pwd
   - sh -l -c "export ALPHA=${PGBUILD}"
   - sh -l -c "echo ${ALPHA}"
   - sh -l -c "cd ${PGBUILD}"
