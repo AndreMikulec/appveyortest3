@@ -26,6 +26,8 @@ install:
   # - dir %PGSOURCE%
 
 build_script:
+  - sh -l -c "echo ${PGBUILD}"
+  - :: BEGINNING WORK . . .
   - sh -l -c "alias shh=\"sh -l -c\""
   - sh -l -c "pwd"
   - sh -l -c "mkdir ${PGBUILD}"
