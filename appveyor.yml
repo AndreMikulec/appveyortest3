@@ -28,6 +28,6 @@ install:
 build_script:
   - cmd: |
      sh -l -c " \
-     ls - \
+     ls - \\
      alrt
      "
