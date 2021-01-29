@@ -20,12 +20,14 @@ environment:
       PG_GIT_BRANCH: REL_13_STABLE
 
 install:
-
   - echo install
   - echo %PGSOURCE%
-  - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
+  # - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
   - dir %PGSOURCE%
 
 build_script:
-  - echo build_script
-
+  - cmd: |
+     sh -l -c " \
+     ls - \
+     alrt
+     "
