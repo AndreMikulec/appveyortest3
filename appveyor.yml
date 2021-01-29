@@ -32,9 +32,15 @@ build_script:
   - cmd: >-
      echo BEGIN CHANGE TO DIR
 
+     echo %PGBUILD%
+
+     dir %PGBUILD%
+
      sh -l -c "
 
      pwd
+
+     echo     %PGBUILD%
 
      echo     ${PGBUILD}
 
