@@ -90,7 +90,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-  artifact: "myartifact"
+  # artifact: "myartifact"
   draft: false
   prerelease: false
   on:
