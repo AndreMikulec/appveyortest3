@@ -26,9 +26,12 @@ install:
   # - dir %PGSOURCE%
 
 build_script:
+  - sh -l -c "pwd"
   - sh -l -c "mkdir ${PGBUILD}"
+  - sh -l -c "ls -alrt"
   - cmd: |
      sh -l -c "
+     pwd
      echo     ${PGBUILD}
      ls -alrt ${PGBUILD}
      cd       ${PGBUILD}
