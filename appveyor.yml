@@ -4,8 +4,8 @@ version: 0.1.0-{build}-{branch}
 # # Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
 # skip_tags: true
 
-# Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
-skip_non_tags: true
+# # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
+# skip_non_tags: true
 
 # branches:
 #   only:
@@ -43,11 +43,3 @@ artifacts:
   - path: "%APPVEYOR_PROJECT_SLUG%_myartifact2_%APPVEYOR_BUILD_VERSION%.txt"
     name: "myartifact2"
 
-deploy:
-  release: "%APPVEYOR_PROJECT_SLUG%_%APPVEYOR_BUILD_VERSION%_Release"
-  provider: GitHub
-  auth_token:
-    secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-  # artifact: "myartifact"
-  draft: false
-  prerelease: true
