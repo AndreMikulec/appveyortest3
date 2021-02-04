@@ -1,83 +1,41 @@
 
 version: 0.1.0-{build}-{branch}
 
-# Do not build on tags (GitHub and BitBucket)
-skip_tags: true
+# # Do not build on tags (GitHub and BitBucket)
+# skip_tags: true
 
 # Start builds on tags only (GitHub and BitBucket)
-# skip_non_tags: true
+skip_non_tags: true
 
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
 
 image: Visual Studio 2019
 environment:
-  PGSOURCE: $(APPVEYOR_BUILD_FOLDER)\postgres
-  # works
-  PGBUILD: $(APPVEYOR_BUILD_FOLDER)\PGBUILD
-  # works
-  PGEXTRABUILD: $(PGBUILD)\EXTRA
+  ENVVARIABLE1: envvar1
   matrix:
-    - MSYSTEM: MINGW64
-      PG_GIT_BRANCH: REL_13_STABLE
+    - MATVARIABLE1: matvar1
+      MATVARIABLE2: matvar2
+
+init:
+  - "@echo off"
+  - echo initializing
+  - set
 
 install:
-  - echo install
-  - echo %PGSOURCE%
-  # - git clone --depth 1 --single-branch --branch %PG_GIT_BRANCH% https://github.com/postgres/postgres.git %PGSOURCE%
-  # - dir %PGSOURCE%
+  - echo installing
+  - set
 
 build_script:
-  - sh -l -c "echo ${PGBUILD}"
-  - sh -l -c "echo ${PGEXTRABUILD}"
-  - :: BEGINNING WORK . . .
-  - sh -l -c "alias shh=\"sh -l -c\""
-  - sh -l -c "pwd"
-  - sh -l -c "mkdir ${PGBUILD}"
-  # correct
-  - sh -l -c "cd ${PGBUILD};   pwd"
-  # obviously does not work (and ERROR is NOT PASSED so continues to next line)
-  - sh -l -c "cd ${PGBUILD}/WRONG;   pwd"
-  # correct
-  - sh -l -c "cd ${PGBUILD} && pwd
-  - sh -l -c "export ALPHA=${PGBUILD}"
-  # see nothing
-  - sh -l -c "echo ${ALPHA}"
-  - sh -l -c "cd ${PGBUILD}"
-  # always resets to the $(APPVEYOR_BUILD_FOLDER)
-  - sh -l -c "pwd"
-  - sh -l -c "ls -alrt"
-  # 'ssh' is not recognized as an internal or external command, operatable program or batch file.
-  # - shh "ls -alrt"
-  # NO *nix OS* substitution in "cmd:"
-  # can ONLY substitutute TOP native TYPE e.g. cmd: %VARIABLE% ps (powershell variable)
-  # folded style >- or >, literal style |
-  #   - cmd: >-
-  #      echo BEGIN CHANGE TO DIR
-  # 
-  #      echo %PGBUILD%
-  # 
-  #      dir %PGBUILD%
-  # 
-  #      sh -l -c "
-  # 
-  #      pwd
-  # 
-  #      echo     %PGBUILD%
-  # 
-  #      echo     ${PGBUILD}
-  # 
-  #      ls -alrt ${PGBUILD}
-  # 
-  #      cd       ${PGBUILD}
-  # 
-  #      echo END CHANGE TO DIR "
+  - echo buiding
+  - set
 
 after_build:
-  - echo after_build
+  - echo after build
   - echo MYARTIFACT  > myartifact.txt
   - echo MYARTIFACT2 > myartifact2.txt
+  - set
   
 artifacts:
   - path: "myartifact.txt"
@@ -86,7 +44,7 @@ artifacts:
     name: "myartifact2"
 
 deploy:
-  release: "%APPVEYOR_PROJECT_SLUG%_%appveyor_build_version%_Release"
+  release: "%APPVEYOR_PROJECT_SLUG%_%APPVEYOR_BUILD_VERSION%_Release"
   provider: GitHub
   auth_token:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
