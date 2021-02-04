@@ -37,13 +37,13 @@ after_build:
   - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
   
 artifacts:
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+  - path: "AppVeyor_Tests_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
     name: "myartifact"
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+  - path: "AppVeyor_Tests_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
     name: "myartifact2"
 
 deploy:
-  release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%"
+  release: "AppVeyor_Tests_%APPVEYOR_REPO_TAG_NAME%"
   provider: GitHub
   auth_token:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
