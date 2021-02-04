@@ -22,7 +22,6 @@ init:
   - "@echo off"
   - echo initializing
   - if not defined APPVEYOR_REPO_TAG_NAME set APPVEYOR_REPO_TAG_NAME=NONE
-  - set
 
 install:
   - echo installing
