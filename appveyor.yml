@@ -7,16 +7,8 @@ version: 1.0.0-{build}-{branch}
 # # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
 # skip_non_tags: true
 
-# configuration for all branches starting from THE REGULAR EXPRESSION
-# build in Release mode and deploy
-
-branches:
-  only:
-    - master
-    - development
-
-for:
 # configuration for "master" branch, build in Release mode
+for:
 -
   branches:
     only:
