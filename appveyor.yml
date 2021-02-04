@@ -7,9 +7,13 @@ version: 1.0.0-{build}-{branch}
 # # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
 # skip_non_tags: true
 
-# branches:
-#   only:
-#     - master
+# configuration for all branches starting from THE REGULAR EXPRESSION
+# build in Release mode and deploy
+
+branches:
+  only:
+    - master
+    - development
 
 image: Visual Studio 2019
 environment:
@@ -51,3 +55,4 @@ deploy:
   prerelease: false
   on:
     APPVEYOR_REPO_TAG: true        # deploy on tag push only
+      
