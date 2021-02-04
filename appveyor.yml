@@ -7,22 +7,13 @@ version: 1.0.0-{build}-{branch}
 # # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
 # skip_non_tags: true
 
-# configuration for "master" branch, build in Release mode
-for:
--
-  branches:
-    only:
-      - master
-  configuration: Release
-# configuration for "development" branch, build in Debug mode
--
-  branches:
-    only:
-      - development
-  configuration: Debug
-# "fall back" configuration for all other branches
-# no "branches" section defined
-configuration: Debug
+branches:
+  except:
+    - /.*_devs?$/
+    - /.*devtsts?$/
+    - /.*devtests?$/
+    - /.*sandbox(es)?$/
+    - /.*playgrounds?$/
 
 # RHEAGROUP / CDP4-IME-Community-Edition
 # https://github.com/RHEAGROUP/CDP4-IME-Community-Edition/blob/338652b5a0f577732265d606d99c8ec56a56484c/appveyor.yml
