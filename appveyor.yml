@@ -4,8 +4,8 @@ version: 0.1.0-{build}-{branch}
 # # Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
 # skip_tags: true
 
-# # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
-# skip_non_tags: true
+# Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
+skip_non_tags: true
 
 # branches:
 #   only:
@@ -25,17 +25,14 @@ init:
 
 install:
   - echo installing
-  - set
 
 build_script:
-  - echo buiding
-  - set
+  - echo building
 
 after_build:
   - echo after build
   - echo MYARTIFACT  > %APPVEYOR_PROJECT_SLUG%_myartifact_%APPVEYOR_BUILD_VERSION%.txt
   - echo MYARTIFACT2 > %APPVEYOR_PROJECT_SLUG%_myartifact2_%APPVEYOR_BUILD_VERSION%.txt
-  - set
   
 artifacts:
   - path: "%APPVEYOR_PROJECT_SLUG%_myartifact_%APPVEYOR_BUILD_VERSION%.txt"
