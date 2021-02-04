@@ -49,7 +49,5 @@ deploy:
     secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
   draft: false
   prerelease: false
- on:
-   APPVEYOR_REPO_TAG: true        # deploy on tag push only
-
-
+  on:
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only
