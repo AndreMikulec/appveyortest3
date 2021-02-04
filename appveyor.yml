@@ -14,6 +14,8 @@ branches:
   only:
     - master
     - development
+    # I can not get this to work (out of time)
+    # https://help.appveyor.com/discussions/problems/24462-using-appveyoryml-all-branches-do-not-build
 
 image: Visual Studio 2019
 environment:
