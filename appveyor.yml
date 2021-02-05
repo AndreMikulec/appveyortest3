@@ -1,10 +1,10 @@
 
 version: 1.0.0-{build}-{branch}
 
-# # Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
-# skip_tags: true
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
 
-# # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
+# Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
 branches:
