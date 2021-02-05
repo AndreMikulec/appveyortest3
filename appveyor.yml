@@ -1,8 +1,8 @@
 
 version: 1.0.0-{build}-{branch}
 
-# Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
-skip_tags: true
+# # Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
+# skip_tags: true
 
 # # Start builds on tags only (GitHub, BitBucket, GitLab, Gitea)
 # skip_non_tags: true
@@ -68,7 +68,7 @@ deploy:
     beta: true      # enable alternative FTP library for 'ftp' and 'ftps' modes
     debug: true     # show complete FTP log
     on:
-      APPVEYOR_REPO_TAG: true        # deploy on tag push only
+      APPVEYOR_REPO_TAG_NAME: /^RELEASE.*$/
   # Deploy to GitHub Releases
   - provider: GitHub
     artifact: myartifact
@@ -77,6 +77,5 @@ deploy:
       secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
     draft: false
     prerelease: false
-    # d
     on:
-      APPVEYOR_REPO_TAG: true        # deploy on tag push only
+      APPVEYOR_REPO_TAG_NAME: /^RELEASE.*$/
