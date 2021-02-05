@@ -59,7 +59,7 @@ deploy:
     artifact: myartifact
     protocol: sftp
     host: frs.sourceforge.net
-    username: andremikulec
+    username: andremikulec,andremikulec.u
     password:
       secure: 4gk4GyW4O5RooiOyGeRdoA==
     folder: /home/frs/project/andremikulec
