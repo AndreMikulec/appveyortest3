@@ -32,6 +32,7 @@ init:
   - "@echo off"
   - echo initializing
   - if not defined APPVEYOR_REPO_TAG_NAME set APPVEYOR_REPO_TAG_NAME=NOTTAGGED
+  - ps: New-NetFirewallRule -DisplayName "Allow Inbound FTP" -Direction Inbound -Program 'C:\Program Files\AppVeyor\BuildAgent\Appveyor.BuildAgent.Interactive.exe' -RemoteAddress Any -Action Allow
 
 install:
   - echo installing
