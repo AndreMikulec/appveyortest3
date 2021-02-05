@@ -36,9 +36,11 @@ init:
 
 install:
   - echo installing
+  - curl -o phpPgAdmin-5.0.2.tar.gz https://sourceforge.net/projects/phppgadmin/files/phpPgAdmin%20%5Bstable%5D/phpPgAdmin-5.0/phpPgAdmin-5.0.2.tar.gz/download
 
 build_script:
   - echo building
+  - 
   - type MYARTIFACT.txt
   - type MYARTIFACT2.txt
 
