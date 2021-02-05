@@ -36,7 +36,7 @@ init:
 
 install:
   - echo installing
-  - if not exists MyFile curl -o MyFile -L -G -v https://downloads.sourceforge.net/project/andremikulec/MyFile
+  - if not exist MyFile curl -o MyFile -L -G -v https://downloads.sourceforge.net/project/andremikulec/MyFile
 
 build_script:
   - echo building
