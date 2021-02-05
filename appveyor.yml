@@ -23,6 +23,7 @@ branches:
 
 image: Visual Studio 2019
 environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   ENVVARIABLE1: envvar1
   matrix:
     - MATVARIABLE1: matvar1
@@ -46,8 +47,8 @@ build_script:
 
 after_build:
   - echo after_build
-  - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-  - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
+  - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
+  - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
 
 artifacts:
   - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
