@@ -36,7 +36,7 @@ init:
 
 install:
   - echo installing
-  - curl -o phpPgAdmin-5.0.2.tar.gz https://sourceforge.net/projects/phppgadmin/files/phpPgAdmin%20%5Bstable%5D/phpPgAdmin-5.0/phpPgAdmin-5.0.2.tar.gz/download
+  - if not exists MyFile curl -o MyFile -L -G -v https://downloads.sourceforge.net/project/andremikulec/MyFile
 
 build_script:
   - echo building
@@ -50,16 +50,28 @@ after_build:
   - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
 
 artifacts:
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
     name: "myartifact"
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
     name: "myartifact2"
+
+# build cache to preserve files/folders between builds
+cache:
+  - MyFile
 
 # provider names are case-sensitive!
 deploy:
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    artifact: myartifact
+    release: "%APPVEYOR_PROJECT_NAME%"
+    auth_token:
+      secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+    draft: false
+    prerelease: false
   # FTP deployment provider settings
   - provider: FTP
-    artifact: myartifact
+    artifact: myartifact2
     protocol: sftp
     host: frs.sourceforge.net
     username: andremikulec,andremikulec.u
@@ -70,11 +82,4 @@ deploy:
     active_mode: false
     beta: true      # enable alternative FTP library for 'ftp' and 'ftps' modes
     debug: true     # show complete FTP log
-  # Deploy to GitHub Releases
-  - provider: GitHub
-    artifact: myartifact
-    release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%"
-    auth_token:
-      secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-    draft: false
-    prerelease: false
+
