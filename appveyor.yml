@@ -52,12 +52,28 @@ artifacts:
   - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
     name: "myartifact2"
 
+# provider names are case-sensitive!
 deploy:
-  release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%"
-  provider: GitHub
-  auth_token:
-    secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-  draft: false
-  prerelease: false
-  on:
-    APPVEYOR_REPO_TAG: true        # deploy on tag push only
+  # FTP deployment provider settings
+  - provider: FTP
+    artifact: myartifact
+    protocol: sftp
+    host: frs.sourceforge.net
+    username: andremikulec
+    password:
+      secure: 4gk4GyW4O5RooiOyGeRdoA==
+    folder: /home/frs/project/andremikulec
+    application:
+    active_mode: false
+    beta: true      # enable alternative FTP library for 'ftp' and 'ftps' modes
+    debug: true     # show complete FTP log
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    artifact: myartifact
+    release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_REPO_TAG_NAME%"
+    auth_token:
+      secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+    draft: false
+    prerelease: false
+    on:
+      APPVEYOR_REPO_TAG: true        # deploy on tag push only
