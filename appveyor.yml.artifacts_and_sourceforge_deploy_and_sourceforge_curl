@@ -1,0 +1,86 @@
+
+version: 1.0.0-{build}-{branch}
+
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+
+# Start builds on tags only (GitHub and BitBucket)
+# skip_non_tags: true
+
+branches:
+  except:
+    - /.*_devs?$/
+    - /.*devtsts?$/
+    - /.*devtests?$/
+    - /.*sandbox(es)?$/
+    - /.*playgrounds?$/
+
+# RHEAGROUP / CDP4-IME-Community-Edition
+# https://github.com/RHEAGROUP/CDP4-IME-Community-Edition/blob/338652b5a0f577732265d606d99c8ec56a56484c/appveyor.yml
+
+# I can not get this to work (out of time)
+# https://help.appveyor.com/discussions/problems/24462-using-appveyoryml-all-branches-do-not-build
+
+image: Visual Studio 2019
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  ENVVARIABLE1: envvar1
+  matrix:
+    - MATVARIABLE1: matvar1
+      MATVARIABLE2: matvar2
+
+init:
+  - "@echo off"
+  - echo initializing
+  - if not defined APPVEYOR_REPO_TAG_NAME set APPVEYOR_REPO_TAG_NAME=NOTTAGGED
+  - ps: New-NetFirewallRule -DisplayName "Allow Inbound FTP" -Direction Inbound -Program 'C:\Program Files\AppVeyor\BuildAgent\Appveyor.BuildAgent.Interactive.exe' -RemoteAddress Any -Action Allow
+
+install:
+  - echo installing
+  - if not exist MyFile curl -o MyFile -L -G -v https://downloads.sourceforge.net/project/andremikulec/MyFile
+
+build_script:
+  - echo building
+  - 
+  - type MYARTIFACT.txt
+  - type MYARTIFACT2.txt
+
+after_build:
+  - echo after_build
+  - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
+  - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
+
+artifacts:
+  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+    name: "myartifact"
+  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+    name: "myartifact2"
+
+# build cache to preserve files/folders between builds
+cache:
+  - MyFile
+
+# provider names are case-sensitive!
+deploy:
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    artifact: myartifact
+    release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
+    auth_token:
+      secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+    draft: false
+    prerelease: false
+  # FTP deployment provider settings
+  - provider: FTP
+    artifact: myartifact2
+    protocol: sftp
+    host: frs.sourceforge.net
+    username: andremikulec,andremikulec.u
+    password:
+      secure: 4gk4GyW4O5RooiOyGeRdoA==
+    folder: /home/frs/project/andremikulec
+    application:
+    active_mode: false
+    beta: true      # enable alternative FTP library for 'ftp' and 'ftps' modes
+    debug: true     # show complete FTP log
+
