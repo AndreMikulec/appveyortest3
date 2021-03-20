@@ -12,7 +12,7 @@ environment:
   AUTHOR: Andre Mikulec
   matrix:
     - image: Visual Studio 2019
-      image: Visual Studio 2015
+    - image: Visual Studio 2015
 
 for:
 -
