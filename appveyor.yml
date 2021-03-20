@@ -7,6 +7,7 @@ skip_tags: true
 # Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
+
 environment:
   image: Visual Studio 2019
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
