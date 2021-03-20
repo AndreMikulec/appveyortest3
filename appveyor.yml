@@ -34,6 +34,7 @@ for:
     - echo initializing
     - echo %AUTHOR%
     - echo %image%
+    - echo %ENVVARIABLE1%
     - echo %MATVARIABLE%
 
   install:
