@@ -21,7 +21,7 @@ environment:
 init:
   - "@echo off"
   - echo initializing
-  - vswhere -legacy -latest -property installationPath
+  - echo %image%
 
 install:
   - echo installing
