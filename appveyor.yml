@@ -23,11 +23,12 @@ for:
   environment:
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     ENVVARIABLE1: envvar1
-    matrix:
-      - MATVARIABLE11: matvar11
-        MATVARIABLE: matvar1
-      - MATVARIABLE21: matvar21
-        MATVARIABLE: matvar2
+    
+  matrix:
+    - MATVARIABLE11: matvar11
+      MATVARIABLE: matvar1
+    - MATVARIABLE21: matvar21
+      MATVARIABLE: matvar2
 
   init:
     - "@echo off"
