@@ -53,7 +53,7 @@ cache:
 deploy:
   # Deploy to GitHub Releases
   - provider: GitHub
-    artifact: FAKE_NO_ARTIFACT
+    artifact: myartifact, myartifact2
     release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
     auth_token:
       secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
