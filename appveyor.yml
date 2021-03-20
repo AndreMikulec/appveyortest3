@@ -7,63 +7,76 @@ skip_tags: true
 # Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
-
 environment:
-  image: Visual Studio 2019
-  APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  ENVVARIABLE1: envvar1
+  # these variables are common to all jobs
+  AUTHOR: Andre Mikulec
   matrix:
-    - MATVARIABLE11: matvar11
-      MATVARIABLE: matvar1
-    - MATVARIABLE21: matvar21
-      MATVARIABLE: matvar2
+    - image: Visual Studio 2019
+      image: Visual Studio 2015
 
-init:
-  - "@echo off"
-  - echo initializing
-  - echo %image%
+for
+-
+  matrix:
+    only:
+      - AUTHOR: Andre Mikulec
 
-install:
-  - echo installing
+  environment:
+    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    ENVVARIABLE1: envvar1
+    matrix:
+      - MATVARIABLE11: matvar11
+        MATVARIABLE: matvar1
+      - MATVARIABLE21: matvar21
+        MATVARIABLE: matvar2
 
-build_script:
-  - echo building
-  - 
-  - type MYARTIFACT.txt
-  - type MYARTIFACT2.txt
-  -
-  - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
+  init:
+    - "@echo off"
+    - echo initializing
+    - echo %AUTHOR%
+    - echo %image%
+    - echo %MATVARIABLE%
 
-after_build:
-  - echo after_build
-  - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-  - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
+  install:
+    - echo installing
 
-artifacts:
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
-    name: "myartifact"
-  - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
-    name: "myartifact2"
+  build_script:
+    - echo building
+    - 
+    - type MYARTIFACT.txt
+    - type MYARTIFACT2.txt
+    -
+    - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
 
-# build cache to preserve files/folders between builds
-cache:
-  - '%MATVARIABLE%.txt'
+  after_build:
+    - echo after_build
+    - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
+    - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
 
-# provider names are case-sensitive!
-deploy:
-  # Deploy to GitHub Releases
-  - provider: GitHub
-    artifact: myartifact, myartifact2
-    release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
-    auth_token:
-      secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-    draft: false
-    prerelease: false
+  artifacts:
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+      name: "myartifact"
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+      name: "myartifact2"
 
-# I run my jobs manually
-# I do not want my email filling up
-notifications:
-  - provider: Email
-    on_build_success: false
-    on_build_failure: false
-    on_build_status_changed: false
+  # build cache to preserve files/folders between builds
+  cache:
+    - '%MATVARIABLE%.txt'
+
+  # provider names are case-sensitive!
+  deploy:
+    # Deploy to GitHub Releases
+    - provider: GitHub
+      artifact: myartifact, myartifact2
+      release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
+      auth_token:
+        secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+      draft: false
+      prerelease: false
+
+  # I run my jobs manually
+  # I do not want my email filling up
+  notifications:
+    - provider: Email
+      on_build_success: false
+      on_build_failure: false
+      on_build_status_changed: false
