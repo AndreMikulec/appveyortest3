@@ -16,9 +16,7 @@ environment:
 
 for:
 -
-  matrix:
-    only:
-      - AUTHOR: Andre Mikulec
+
 
   environment:
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
