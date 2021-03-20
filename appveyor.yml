@@ -1,17 +1,14 @@
 
 version: 1.0.0-{build}-{branch}
+#
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
 
+# Start builds on tags only (GitHub and BitBucket)
+# skip_non_tags: true
 
 environment:
-  #
-  # Do not build on tags (GitHub and BitBucket)
-  skip_tags: true
-
-  # Start builds on tags only (GitHub and BitBucket)
-  # skip_non_tags: true
-
   image: Visual Studio 2019
-  #
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   ENVVARIABLE1: envvar1
   matrix:
@@ -23,6 +20,7 @@ environment:
 init:
   - "@echo off"
   - echo initializing
+  - vswhere -legacy -latest -property installationPath
 
 install:
   - echo installing
