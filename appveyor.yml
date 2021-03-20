@@ -46,7 +46,6 @@ artifacts:
 
 # build cache to preserve files/folders between builds
 cache:
-  - MyFile
   - '%MATVARIABLE%.txt'
 
 # provider names are case-sensitive!
