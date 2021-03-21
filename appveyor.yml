@@ -30,8 +30,17 @@ environment:
     MATVARIABLE: matvar2
     image: Visual Studio 2019
 
+# # IS A LOGICAL 'OR'
+# matrix:
+#   exclude:
+#     - platform: 'x86'
+#     - configuration: 'Debug'
 
-
+# IS A LOGICAL '??'
+matrix:
+  except:
+    - platform: 'x86'
+    - configuration: 'Debug'
 
 for:
 -
