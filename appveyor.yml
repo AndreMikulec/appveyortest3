@@ -42,7 +42,6 @@ environment:
 # WORKS (RESTRICTS ROOT LEVEL)
 # ( ) IS A LOGICAL 'AND'
 # (-) IS A LOGICAL 'OR'
-
 matrix:
   exclude:
     - platform: 'x86'
@@ -69,9 +68,9 @@ for:
   # "matrix.only" or "matrix.except" can be placed only under "for" node
   # IS A LOGICAL '??'
   matrix:
-    except:
+    only:
       - APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
-      - MATVARIABLE: matvar2
+        MATVARIABLE: matvar2
 
   environment:
     ENVVARIABLE1: envvar1
