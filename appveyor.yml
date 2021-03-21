@@ -99,12 +99,6 @@ for:
 
   build_script:
     - echo building
-
-  install:
-    - echo installing
-
-  build_script:
-    - echo building
     -
     - type MYARTIFACT.txt
     - type MYARTIFACT2.txt
