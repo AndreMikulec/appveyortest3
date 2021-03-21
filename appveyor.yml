@@ -68,24 +68,13 @@ matrix:
 #   after_build after_test after_deploy on_success on_failure on_finish
 # init:
 
-# https://devblogs.microsoft.com/setup/vswhere-now-searches-older-versions-of-visual-studio/
-# https://www.nuget.org/packages/vswhere/
-# Package Manager Install
-# https://github.com/PoshCode/PSGit/blob/fc87f64f3e2b3926b6f15856977854c3ff04e8cb/appveyor.yml
-# https://stackoverflow.com/questions/54305638/how-to-find-vswhere-exe-path
-
-# TEST VISUAL STUDIO VERSION: NO MICROSOFT PROJECT SOLUTION FILES ARE FOUND
-# install:
-  # - curl -L -o vswhere.exe https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe
-  # - vswhere -property catalog_productDisplayVersion
-  
 # "matrix.only" or "matrix.except" can be placed only under "for" node
 for:
 -
   matrix:
     only:
-      - MATVARIABLE: matvar2
-        APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
+      - MATVARIABLE: matvar1
+        APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
         configuration: 'Release'
 
   environment:
