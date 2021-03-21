@@ -7,11 +7,12 @@ skip_tags: true
 # Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
-APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
 
 environment:
   # these variables are common to all jobs
   AUTHOR: Andre Mikulec
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   matrix:
   - MATVARIABLE11: matvar11
     MATVARIABLE: matvar1
