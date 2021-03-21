@@ -42,7 +42,7 @@ matrix:
 
 init:
  - sh: if [ "${CONFIGURATION}" = "Debug" ] && ; then exit 0; else  ;fi
- - sh: if [ "${PLATFORM}" = "x86" ]; then exit 0; fi 
+ - sh: if [ "${PLATFORM}" = "x86" ]; then exit 0; fi
 
 environment:
   #
@@ -93,58 +93,58 @@ for:
     - echo %MATVARIABLE%
     #
     - echo %ENVVARIABLE%
-    
+
   install:
-    - echo installing  
-    
+    - echo installing
+
   build_script:
     - echo building
 
-    install:
-      - echo installing
+  install:
+    - echo installing
 
-    build_script:
-      - echo building
-      - 
-      - type MYARTIFACT.txt
-      - type MYARTIFACT2.txt
-      -
-      - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
+  build_script:
+    - echo building
+    -
+    - type MYARTIFACT.txt
+    - type MYARTIFACT2.txt
+    -
+    - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
 
-    after_build:
-      - echo after_build
-      - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-      - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
+  after_build:
+    - echo after_build
+    - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
+    - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
 
-    artifacts:
-      - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
-        name: "myartifact"
-      - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
-        name: "myartifact2"
+  artifacts:
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+      name: "myartifact"
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+      name: "myartifact2"
 
-    # build cache to preserve files/folders between builds
-    cache:
-      - MyFile
-      - '%MATVARIABLE%.txt'
+  # build cache to preserve files/folders between builds
+  cache:
+    - MyFile
+    - '%MATVARIABLE%.txt'
 
-    # provider names are case-sensitive!
-    deploy:
-      # Deploy to GitHub Releases
-      - provider: GitHub
-        artifact: FAKE_NO_ARTIFACT
-        release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
-        auth_token:
-          secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-        draft: false
-        prerelease: false
+  # provider names are case-sensitive!
+  deploy:
+    # Deploy to GitHub Releases
+    - provider: GitHub
+      artifact: FAKE_NO_ARTIFACT
+      release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
+      auth_token:
+        secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+      draft: false
+      prerelease: false
 
-    # I run my jobs manually
-    # I do not want my email filling up
-    notifications:
-      - provider: Email
-        on_build_success: false
-        on_build_failure: false
-        on_build_status_changed: false
+  # I run my jobs manually
+  # I do not want my email filling up
+  notifications:
+    - provider: Email
+      on_build_success: false
+      on_build_failure: false
+      on_build_status_changed: false
 
 
 -
@@ -172,48 +172,48 @@ for:
     #
     - echo %ENVVARIABLE%
 
-    install:
-      - echo installing
+  install:
+    - echo installing
 
-    build_script:
-      - echo building
-      - 
-      - type MYARTIFACT.txt
-      - type MYARTIFACT2.txt
-      -
-      - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
+  build_script:
+    - echo building
+    -
+    - type MYARTIFACT.txt
+    - type MYARTIFACT2.txt
+    -
+    - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
 
-    after_build:
-      - echo after_build
-      - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-      - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
+  after_build:
+    - echo after_build
+    - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
+    - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
 
-    artifacts:
-      - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
-        name: "myartifact"
-      - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
-        name: "myartifact2"
+  artifacts:
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
+      name: "myartifact"
+    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
+      name: "myartifact2"
 
-    # build cache to preserve files/folders between builds
-    cache:
-      - MyFile
-      - '%MATVARIABLE%.txt'
+  # build cache to preserve files/folders between builds
+  cache:
+    - MyFile
+    - '%MATVARIABLE%.txt'
 
-    # provider names are case-sensitive!
-    deploy:
-      # Deploy to GitHub Releases
-      - provider: GitHub
-        artifact: FAKE_NO_ARTIFACT
-        release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
-        auth_token:
-          secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-        draft: false
-        prerelease: false
+  # provider names are case-sensitive!
+  deploy:
+    # Deploy to GitHub Releases
+    - provider: GitHub
+      artifact: FAKE_NO_ARTIFACT
+      release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
+      auth_token:
+        secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
+      draft: false
+      prerelease: false
 
-    # I run my jobs manually
-    # I do not want my email filling up
-    notifications:
-      - provider: Email
-        on_build_success: false
-        on_build_failure: false
-        on_build_status_changed: false
+  # I run my jobs manually
+  # I do not want my email filling up
+  notifications:
+    - provider: Email
+      on_build_success: false
+      on_build_failure: false
+      on_build_status_changed: false
