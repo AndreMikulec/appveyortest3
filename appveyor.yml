@@ -43,15 +43,15 @@ environment:
 # https://www.nuget.org/packages/vswhere/
 # Package Manager Install
 # https://github.com/PoshCode/PSGit/blob/fc87f64f3e2b3926b6f15856977854c3ff04e8cb/appveyor.yml
+# https://stackoverflow.com/questions/54305638/how-to-find-vswhere-exe-path
 init:
-  - set PATH=C:\Program Files (x86)\Microsoft Visual Studio\Installer;%PATH%
+  - curl -L -o vswhere.exe https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe
   - vswhere -property catalog_productDisplayVersion
 
 for:
+-
   # "matrix.only" or "matrix.except" can be placed only under "for" node
   # IS A LOGICAL '??'
-
--
   matrix:
     except:
       - platform: 'x86'
