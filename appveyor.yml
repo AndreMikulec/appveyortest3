@@ -29,11 +29,17 @@ environment:
   - MATVARIABLE11: matvar11
     MATVARIABLE: matvar1
     APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
+  - MATVARIABLE12: matvar12
+    MATVARIABLE: matvar2
+    APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
   - MATVARIABLE21: matvar21
+    MATVARIABLE: matvar1
+    APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
+  - MATVARIABLE22: matvar21
     MATVARIABLE: matvar2
     APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
 
-# # IS A LOGICAL 'OR'
+# # (-) IS A LOGICAL 'OR'
 # matrix:
 #   exclude:
 #     - platform: 'x86'
@@ -45,18 +51,19 @@ environment:
 # https://github.com/PoshCode/PSGit/blob/fc87f64f3e2b3926b6f15856977854c3ff04e8cb/appveyor.yml
 # https://stackoverflow.com/questions/54305638/how-to-find-vswhere-exe-path
 
-install:
-  - curl -L -o vswhere.exe https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe
-  - vswhere -property catalog_productDisplayVersion
-
+# NO MICROSOFT PROJECT SOLUTION FILES ARE FOUND
+# install:
+  # - curl -L -o vswhere.exe https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe
+  # - vswhere -property catalog_productDisplayVersion
+  
 for:
 -
   # "matrix.only" or "matrix.except" can be placed only under "for" node
   # IS A LOGICAL '??'
   matrix:
     except:
-      - platform: 'x86'
-      - configuration: 'Debug'
+      - MATVARIABLE22: matvar21
+        MATVARIABLE: matvar2
 
   environment:
     ENVVARIABLE1: envvar1
@@ -80,8 +87,8 @@ for:
 -
   matrix:
     except:
-      - platform: 'x86'
-      - configuration: 'Debug'
+      - MATVARIABLE22: matvar21
+        MATVARIABLE: matvar2
 
   environment:
     ENVVARIABLE2: envvar2
