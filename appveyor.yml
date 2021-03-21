@@ -2,12 +2,19 @@
 version: 1.0.0-{build}-{branch}
 #
 # Do not build on tags (GitHub and BitBucket)
+# NOT AN ENVIRONMENT VARIABLE (BUT WORKS)
 skip_tags: true
 
 # Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
+platform:
+  - 'x64'
+  - 'x86'
 
+configuration:
+  - 'Debug'
+  - 'Release'
 
 environment:
   # these variables are common to all jobs
@@ -21,6 +28,11 @@ environment:
     MATVARIABLE: matvar2
     image: Visual Studio 2019
 
+matrix:
+  exclude:
+    - platform: 'x86'
+      TOOLCHAIN: 'mingw'
+
 for:
 -
   environment:
@@ -29,6 +41,8 @@ for:
   init:
     - "@echo off"
     - echo initializing
+    - echo %platform%
+    - echo %configuration%
     - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
     - echo %skip_tags%
     - echo %AUTHOR%
@@ -86,6 +100,8 @@ for:
   init:
     - "@echo off"
     - echo initializing
+    - echo %platform%
+    - echo %configuration%
     - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
     - echo %skip_tags%
     - echo %AUTHOR%
