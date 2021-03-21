@@ -32,6 +32,18 @@ configuration:
   - 'Debug'
   - 'Release'
 
+# WORKS (RESTRICTS ROOT LEVEL)
+matrix:
+  exclude:
+    # ( ) IS A LOGICAL 'AND'
+    # (-) IS A LOGICAL 'OR'
+    - platform: 'x86'
+      configuration: 'Debug'
+
+init:
+ - sh: if [ "${CONFIGURATION}" = "Debug" ] && ; then exit 0; else  ;fi
+ - sh: if [ "${PLATFORM}" = "x86" ]; then exit 0; fi 
+
 environment:
   #
   # these variables are common to all jobs
@@ -55,26 +67,13 @@ environment:
     MATVARIABLE: matvar2
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
-# WORKS (RESTRICTS ROOT LEVEL)
-matrix:
-  exclude:
-    # ( ) IS A LOGICAL 'AND'
-    # (-) IS A LOGICAL 'OR'
-    - platform: 'x86'
-      configuration: 'Debug'
-
-# TRY NOT TO USE - some "git" complaints NOT EMPTY
-# RECOMMENT AT THE END OFF EACH BUILD - DELETE ALL FILES?
-#   after_build after_test after_deploy on_success on_failure on_finish
-# init:
-
 # "matrix.only" or "matrix.except" can be placed only under "for" node
 for:
 -
   matrix:
     only:
       - MATVARIABLE: matvar1
-        APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         configuration: 'Release'
 
   environment:
@@ -95,6 +94,9 @@ for:
     #
     - echo %ENVVARIABLE%
     
+  install:
+    - echo installing  
+    
   build_script:
     - echo building
 
@@ -102,7 +104,7 @@ for:
   matrix:
     only:
       - MATVARIABLE: matvar2
-        APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
         configuration: 'Release'
 
   environment:
@@ -122,6 +124,9 @@ for:
     - echo %MATVARIABLE%
     #
     - echo %ENVVARIABLE%
+
+  install:
+    - echo installing  
 
   build_script:
     - echo building
