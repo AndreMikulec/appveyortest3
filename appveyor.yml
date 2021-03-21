@@ -211,3 +211,23 @@ for:
       on_build_success: false
       on_build_failure: false
       on_build_status_changed: false
+
+for:
+-
+  matrix:
+    except:
+      - MATVARIABLE: matvar1
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        configuration: 'Release'
+      - MATVARIABLE: matvar2
+        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+        configuration: 'Release'
+        
+  init:
+    - echo initializing
+        
+  install:
+    - echo installing
+
+  build_script:
+    - echo building
