@@ -44,8 +44,7 @@ environment:
 # Package Manager Install
 # https://github.com/PoshCode/PSGit/blob/fc87f64f3e2b3926b6f15856977854c3ff04e8cb/appveyor.yml
 init:
-- ps: |
-    Install-Package vswhere
+  - "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -property catalog_productDisplayVersion
 
 for:
   # "matrix.only" or "matrix.except" can be placed only under "for" node
