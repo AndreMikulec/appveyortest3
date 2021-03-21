@@ -39,11 +39,19 @@ environment:
     MATVARIABLE: matvar2
     APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
 
-# # (-) IS A LOGICAL 'OR'
+# WORKS (RESTRICTS ROOT LEVEL)
+# ( ) IS A LOGICAL 'AND'
+# (-) IS A LOGICAL 'OR'
+
 matrix:
   exclude:
     - platform: 'x86'
       configuration: 'Debug'
+
+# TRY NOT TO USE - some "git" complaints NOT EMPTY
+# RECOMMENT AT THE END OFF EACH BUILD - DELETE ALL FILES?
+#   after_build after_test after_deploy on_success on_failure on_finish
+# init:
 
 # https://devblogs.microsoft.com/setup/vswhere-now-searches-older-versions-of-visual-studio/
 # https://www.nuget.org/packages/vswhere/
@@ -62,8 +70,8 @@ for:
   # IS A LOGICAL '??'
   matrix:
     except:
-      - MATVARIABLE22: matvar21
-        MATVARIABLE: matvar2
+      - APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2015
+      - MATVARIABLE: matvar2
 
   environment:
     ENVVARIABLE1: envvar1
@@ -79,6 +87,7 @@ for:
     - echo %AUTHOR%
     - echo %APPVEYOR_BUILD_WORKER_IMAGE%
     - echo %ENVVARIABLE1%
+    - echo %MATVARIABLE22%
     - echo %MATVARIABLE%
 
   build_script:
