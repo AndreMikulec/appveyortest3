@@ -31,10 +31,7 @@ environment:
     image: Visual Studio 2019
 
 
-matrix:
-  exclude:
-    - platform: 'x86'
-    - configuration: 'Debug'
+
 
 for:
 -
