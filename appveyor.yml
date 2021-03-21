@@ -45,7 +45,7 @@ environment:
 # https://github.com/PoshCode/PSGit/blob/fc87f64f3e2b3926b6f15856977854c3ff04e8cb/appveyor.yml
 init:
   - set PATH=C:\Program Files (x86)\Microsoft Visual Studio\Installer;%PATH%
-  - vswhere.exe -property catalog_productDisplayVersion'
+  - vswhere -property catalog_productDisplayVersion'
 
 for:
   # "matrix.only" or "matrix.except" can be placed only under "for" node
