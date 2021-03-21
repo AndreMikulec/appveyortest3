@@ -212,7 +212,6 @@ for:
       on_build_failure: false
       on_build_status_changed: false
 
-for:
 -
   matrix:
     except:
