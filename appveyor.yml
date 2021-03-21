@@ -36,13 +36,15 @@ environment:
 #     - platform: 'x86'
 #     - configuration: 'Debug'
 
-# IS A LOGICAL '??'
-matrix:
-  except:
-    - platform: 'x86'
-    - configuration: 'Debug'
 
 for:
+  # "matrix.only" or "matrix.except" can be placed only under "for" node
+  # IS A LOGICAL '??'
+  matrix:
+    except:
+      - platform: 'x86'
+      - configuration: 'Debug'
+
 -
   environment:
     ENVVARIABLE1: envvar1
