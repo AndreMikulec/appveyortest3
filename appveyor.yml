@@ -1,15 +1,15 @@
 
 # NOTE can not do gitflow branch names with hyphens in the branch names
 
-# WEIRD -SOMETIMES - TWO TAGS IN THE SAME BRANCH
+#
 version: 1.0.{build}.{branch}
+#
 # MAYBE DEV BRANCHES WOULD BE 1.1
 #
 
 #
 # KEEP HERE
 #
-
 # Do not build on tags (GitHub and BitBucket)
 # NOT AN ENVIRONMENT VARIABLE (BUT DOES SKIP TAGS)
 skip_tags: true
@@ -40,9 +40,13 @@ matrix:
     - platform: 'x86'
       configuration: 'Debug'
 
-init:
- - sh: if [ "${CONFIGURATION}" = "Debug" ] && ; then exit 0; else  ;fi
- - sh: if [ "${PLATFORM}" = "x86" ]; then exit 0; fi
+# if I ever want FINE control
+#   
+# https://github.com/NXPmicro/mfgtools/blob/38dc3250ee5db617224b36de19859a77275f0a96/appveyor.yml
+#
+# init:
+#  - sh: if [ "${CONFIGURATION}" = "Debug" ]; then exit 0; fi
+#  - sh: if [ "${PLATFORM}" = "x86" ];        then exit 0; fi
 
 environment:
   #
@@ -118,7 +122,6 @@ for:
 
   # build cache to preserve files/folders between builds
   cache:
-    - MyFile
     - '%MATVARIABLE%.txt'
 
   # provider names are case-sensitive!
@@ -139,7 +142,6 @@ for:
       on_build_success: false
       on_build_failure: false
       on_build_status_changed: false
-
 
 -
   matrix:
@@ -213,11 +215,13 @@ for:
       on_build_status_changed: false
 
 # "The build phase is set to "MSBuild" mode (default), but no Visual Studio project or solution files were found"
-#   GitHub authorization is most probable reason for this. 
-#   I believe your appveyor.yml cannot be read and not respected. 
+#   GitHub authorization is most probable reason for this.
+#   I believe your appveyor.yml cannot be read and not respected.
 #   Re-authorize (revoke and authorize again) GitHub at https://ci.appveyor.com/account,
 # https://help.appveyor.com/discussions/problems/11287-the-build-phase-is-set-to-msbuild-mode-default-but-no-visual-studio-project-or-solution-files-were-found
+# ABOVE: I DID NOT DO
 #
+# INSTEAD I DID . . .
 # ALL OTHER CASES
 -
   matrix:
@@ -228,10 +232,10 @@ for:
       - MATVARIABLE: matvar2
         APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
         configuration: 'Release'
-        
+
   init:
     - echo initializing nothing
-        
+
   install:
     - echo installing nothing
 
