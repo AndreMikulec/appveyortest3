@@ -1,8 +1,10 @@
 
-version: 1.0.0-{build}-{branch}
+# NOTE can not do gitflow branch names with hyphens in the branch names
+version: 1.0.{build}.{branch}
+# MAYBE DEV BRANCHES WOULD BE 1.1
 #
 # Do not build on tags (GitHub and BitBucket)
-# NOT AN ENVIRONMENT VARIABLE (BUT WORKS)
+# NOT AN ENVIRONMENT VARIABLE (BUT DOES SKIP TAGS)
 skip_tags: true
 
 # Start builds on tags only (GitHub and BitBucket)
@@ -28,10 +30,11 @@ environment:
     MATVARIABLE: matvar2
     image: Visual Studio 2019
 
+
 matrix:
   exclude:
     - platform: 'x86'
-      TOOLCHAIN: 'mingw'
+    - configuration: 'Debug'
 
 for:
 -
@@ -41,6 +44,7 @@ for:
   init:
     - "@echo off"
     - echo initializing
+    - echo %skip_tags%
     - echo %platform%
     - echo %configuration%
     - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
@@ -100,6 +104,7 @@ for:
   init:
     - "@echo off"
     - echo initializing
+    - echo %skip_tags%
     - echo %platform%
     - echo %configuration%
     - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
