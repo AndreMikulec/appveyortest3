@@ -40,10 +40,10 @@ environment:
     APPVEYOR_BUILD_WORKER_IMAGE:  Visual Studio 2019
 
 # # (-) IS A LOGICAL 'OR'
-# matrix:
-#   exclude:
-#     - platform: 'x86'
-#     - configuration: 'Debug'
+matrix:
+  exclude:
+    - platform: 'x86'
+      configuration: 'Debug'
 
 # https://devblogs.microsoft.com/setup/vswhere-now-searches-older-versions-of-visual-studio/
 # https://www.nuget.org/packages/vswhere/
