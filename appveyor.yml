@@ -77,6 +77,11 @@ for:
     - echo building
 
 -
+  matrix:
+    except:
+      - platform: 'x86'
+      - configuration: 'Debug'
+
   environment:
     ENVVARIABLE2: envvar2
 
