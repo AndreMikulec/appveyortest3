@@ -125,7 +125,7 @@ for:
   deploy:
     # Deploy to GitHub Releases
     - provider: GitHub
-      artifact: FAKE_NO_ARTIFACT
+      artifact: myartifact, myartifact2
       release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
       auth_token:
         secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
@@ -197,7 +197,7 @@ for:
   deploy:
     # Deploy to GitHub Releases
     - provider: GitHub
-      artifact: FAKE_NO_ARTIFACT
+      artifact: myartifact, myartifact2
       release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
       auth_token:
         secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
@@ -213,8 +213,11 @@ for:
       on_build_status_changed: false
 
 # "The build phase is set to "MSBuild" mode (default), but no Visual Studio project or solution files were found"
-# GitHub authorization is most probable reason for this. I believe your appveyor.yml cannot be read and not respected. Re-authorize (revoke and authorize again) GitHub at https://ci.appveyor.com/account,
+#   GitHub authorization is most probable reason for this. 
+#   I believe your appveyor.yml cannot be read and not respected. 
+#   Re-authorize (revoke and authorize again) GitHub at https://ci.appveyor.com/account,
 # https://help.appveyor.com/discussions/problems/11287-the-build-phase-is-set-to-msbuild-mode-default-but-no-visual-studio-project-or-solution-files-were-found
+#
 # ALL OTHER CASES
 -
   matrix:
@@ -227,10 +230,10 @@ for:
         configuration: 'Release'
         
   init:
-    - echo initializing
+    - echo initializing nothing
         
   install:
-    - echo installing
+    - echo installing nothing
 
   build_script:
-    - echo building
+    - echo building nothing
