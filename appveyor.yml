@@ -1,242 +1,222 @@
 
-# NOTE can not do gitflow branch names with hyphens in the branch names
 
-#
+
+# help: 1 of 3
+# From:	Andrew Dunstan <andrew(at)dunslane(dot)net>
+# To:	PostgreSQL-development <pgsql-hackers(at)postgresql(dot)org>
+# Subject:	msys2
+# Date:	2018-10-07 19:32:44
+# Message-ID:	9f4f22be-f9f1-b350-bc06-521226b87f7a@dunslane.net
+# Views:	Raw Message | Whole Thread | Download mbox | Resend email
+# Thread:
+# 2018-10-07 19:32:44 from Andrew Dunstan <andrew(at)dunslane(dot)net>
+# Lists:	pgsql-hackers
+# https://www.postgresql.org/message-id/9f4f22be-f9f1-b350-bc06-521226b87f7a%40dunslane.net
+
+
+# help: 2 of 3
+# Developing PostgreSQL for Windows, Part 3
+# March 24, 2020/in Eisentraut's PlanetPostgreSQL, PostgreSQL /by Peter Eisentraut
+# https://www.2ndquadrant.com/en/blog/developing-postgresql-windows-part-3/
+# . . .
+# some AppVeyor files
+# From:	Peter Eisentraut <peter(dot)eisentraut(at)2ndquadrant(dot)com>
+# To:	pgsql-hackers <pgsql-hackers(at)postgresql(dot)org>
+# Subject:	some AppVeyor files
+# Date:	2020-03-23 16:05:33
+# Message-ID:	d8e78714-dc77-4a64-783f-e863ba4d951f@2ndquadrant.com
+# Views:	Raw Message | Whole Thread | Download mbox | Resend email
+# Thread:
+# 2020-03-23 16:05:33 from Peter Eisentraut <peter(dot)eisentraut(at)2ndquadrant(dot)com>
+# Lists:	pgsql-hackers ### MOSTLY HERE ###
+# https://www.postgresql.org/message-id/d8e78714-dc77-4a64-783f-e863ba4d951f%402ndquadrant.com
+# . . .
+# From a04c2140482645a810bfd682b204bac5194eea8d Mon Sep 17 00:00:00 2001
+# From: Peter Eisentraut <peter@eisentraut.org>
+# Date: Tue, 10 Mar 2020 19:23:46 +0100
+# Subject: [PATCH] AppVeyor configuration for MinGW
+# https://www.postgresql.org/message-id/attachment/109033/0001-AppVeyor-configuration-for-MinGW.patch
+
+
+# help: 3 of 3
+# Package: mingw-w64-x86_64-postgresql
+# Libraries for use with PostgreSQL (mingw-w64)
+# https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-postgresql/PKGBUILD
+# and
+# https://packages.msys2.org/package/mingw-w64-x86_64-postgresql
+
+
+# also help from 4 of 4
+# https://github.com/AndreMikulec/plr/blob/340005ce48ff8ca98f05eb8788fed8fd5bc459ba/appveyor.yml
+# and its run 
+# https://ci.appveyor.com/project/AndreMikulec/plr/builds/38431791/job/ah2pwypilr2rf40l?fullLog=true
+
+
+
 version: 1.0.{build}.{branch}
-#
-# MAYBE DEV BRANCHES WOULD BE 1.1
-#
 
-#
-# KEEP HERE
-#
+image: Visual Studio 2015
+
 # Do not build on tags (GitHub and BitBucket)
-# NOT AN ENVIRONMENT VARIABLE (BUT DOES SKIP TAGS)
 skip_tags: true
 
 # Start builds on tags only (GitHub and BitBucket)
 # skip_non_tags: true
 
-# ( ) IS A LOGICAL 'AND'
-# (-) IS A LOGICAL 'OR'
+# Skipping commits affecting specific files (GitHub only).
+skip_commits:
+  files:
+  message: /\[skip ci]/
 
-# IMPLIED - ROOT MATRIX
+# set clone depth
+clone_depth: 1
 
-# WILL DO BOTH COMBINATIONS
-platform:
-  - 'x64'
-  - 'x86'
-
-# WILL DO BOTH COMBINATIONS
-configuration:
-  - 'Debug'
-  - 'Release'
-
-# WORKS (RESTRICTS ROOT LEVEL)
-matrix:
-  exclude:
-    # ( ) IS A LOGICAL 'AND'
-    # (-) IS A LOGICAL 'OR'
-    - platform: 'x86'
-      configuration: 'Debug'
-
-# if I ever want FINE control
-#   
-# https://github.com/NXPmicro/mfgtools/blob/38dc3250ee5db617224b36de19859a77275f0a96/appveyor.yml
-#
-# init:
-#  - sh: if [ "${CONFIGURATION}" = "Debug" ]; then exit 0; fi
-#  - sh: if [ "${PLATFORM}" = "x86" ];        then exit 0; fi
 
 environment:
-  #
-  # these variables are common to all jobs
-  #
-  AUTHOR: Andre Mikulec
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  #
-  # THE ONE AND ONLY - EXPLICIT MATRIX
-  #
+  PGOPTIONS: -c log_error_verbosity=verbose -c log_min_messages=debug2 -c log_min_error_statement=debug2
   matrix:
-  - MATVARIABLE11: matvar11
-    MATVARIABLE: matvar1
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-  - MATVARIABLE12: matvar12
-    MATVARIABLE: matvar2
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-  - MATVARIABLE21: matvar21
-    MATVARIABLE: matvar1
+  - compiler: msvc
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    PlatformToolset: v141
+    configuration: Release
+    platform: x64
+  - compiler: msys2
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  - MATVARIABLE22: matvar21
-    MATVARIABLE: matvar2
+    MSYSTEM: MINGW32
+  - compiler: msys2
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    MSYSTEM: MINGW64
+  - compiler: cygwin
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    CYG_ARCH: x86
+    CYG_ROOT: C:/cygwin
+  - compiler: cygwin
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    CYG_ARCH: x86_64
+    CYG_ROOT: C:/cygwin64
 
-# "matrix.only" or "matrix.except" can be placed only under "for" node
+# https://www.postgresql.org/message-id/flat/f1caef93-9640-022e-9211-bbe8755a56b0%402ndQuadrant.com
+# does this help?
+# https://www.postgresql-archive.org/BUG-16774-PostgreSQL-clean-build-MINGW64-gcc-but-initdb-fails-cannot-find-startadress-CreateProcessAA-td6167336.html
+# specifically (Alexander Lakhin-2)
+# https://www.postgresql-archive.org/attachment/6187142/0/make_check11.txt
+matrix:
+  allow_failures:
+  - compiler: msys2
+    MSYSTEM: MINGW64
+
 for:
--
-  matrix:
-    only:
-      - MATVARIABLE: matvar1
-        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-        configuration: 'Release'
-
-  environment:
-    ENVVARIABLE: for1
-
-  init:
-    - "@echo off"
-    - echo initializing
-    - echo %skip_tags%
-    - echo %platform%
-    - echo %configuration%
-    - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
-    - echo %skip_tags%
-    - echo %AUTHOR%
-    - echo %APPVEYOR_BUILD_WORKER_IMAGE%
-    - echo %MATVARIABLE22%
-    - echo %MATVARIABLE%
-    #
-    - echo %ENVVARIABLE%
-
-  install:
-    - echo installing
-
-  build_script:
-    - echo building
-    -
-    - type MYARTIFACT.txt
-    - type MYARTIFACT2.txt
-    -
-    - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
-
-  after_build:
-    - echo after_build
-    - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-    - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
-
-  artifacts:
-    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
-      name: "myartifact"
-    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
-      name: "myartifact2"
-
-  # build cache to preserve files/folders between builds
-  cache:
-    - '%MATVARIABLE%.txt'
-
-  # provider names are case-sensitive!
-  deploy:
-    # Deploy to GitHub Releases
-    - provider: GitHub
-      artifact: myartifact, myartifact2
-      release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
-      auth_token:
-        secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-      draft: false
-      prerelease: false
-
-  # I run my jobs manually
-  # I do not want my email filling up
-  notifications:
-    - provider: Email
-      on_build_success: false
-      on_build_failure: false
-      on_build_status_changed: false
 
 -
-  matrix:
-    only:
-      - MATVARIABLE: matvar2
-        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-        configuration: 'Release'
-
-  environment:
-    ENVVARIABLE: for2
-
-  init:
-    - "@echo off"
-    - echo initializing
-    - echo %skip_tags%
-    - echo %platform%
-    - echo %configuration%
-    - echo %APPVEYOR_SAVE_CACHE_ON_ERROR%
-    - echo %skip_tags%
-    - echo %AUTHOR%
-    - echo %APPVEYOR_BUILD_WORKER_IMAGE%
-    - echo %ENVVARIABLE2%
-    - echo %MATVARIABLE%
-    #
-    - echo %ENVVARIABLE%
-
-  install:
-    - echo installing
-
-  build_script:
-    - echo building
-    -
-    - type MYARTIFACT.txt
-    - type MYARTIFACT2.txt
-    -
-    - if not exist %MATVARIABLE%.txt echo %MATVARIABLE% > %MATVARIABLE%.txt
-
-  after_build:
-    - echo after_build
-    - type MYARTIFACT.txt  > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt
-    - type MYARTIFACT2.txt > %APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt
-
-  artifacts:
-    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_1.txt"
-      name: "myartifact"
-    - path: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%_2.txt"
-      name: "myartifact2"
-
-  # build cache to preserve files/folders between builds
-  cache:
-    - '%MATVARIABLE%.txt'
-
-  # provider names are case-sensitive!
-  deploy:
-    # Deploy to GitHub Releases
-    - provider: GitHub
-      artifact: myartifact, myartifact2
-      release: "%APPVEYOR_PROJECT_NAME%_%APPVEYOR_BUILD_VERSION%"
-      auth_token:
-        secure: KzS1DumC2yBg2LGN9x3AemHFOjAdp+rD58rW5aGGpwW4Pfdwdm7AmRpYKprPY8Gs
-      draft: false
-      prerelease: false
-
-  # I run my jobs manually
-  # I do not want my email filling up
-  notifications:
-    - provider: Email
-      on_build_success: false
-      on_build_failure: false
-      on_build_status_changed: false
-
-# "The build phase is set to "MSBuild" mode (default), but no Visual Studio project or solution files were found"
-#   GitHub authorization is most probable reason for this.
-#   I believe your appveyor.yml cannot be read and not respected.
-#   Re-authorize (revoke and authorize again) GitHub at https://ci.appveyor.com/account,
-# https://help.appveyor.com/discussions/problems/11287-the-build-phase-is-set-to-msbuild-mode-default-but-no-visual-studio-project-or-solution-files-were-found
-# ABOVE: I DID NOT DO
+# https://www.postgresql.org/message-id/attachment/109034/0001-AppVeyor-configuration-for-MSVC.patch
 #
-# INSTEAD I DID . . .
-# ALL OTHER CASES
--
   matrix:
-    except:
-      - MATVARIABLE: matvar1
-        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-        configuration: 'Release'
-      - MATVARIABLE: matvar2
-        APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-        configuration: 'Release'
-
-  init:
-    - echo initializing nothing
+    only:
+      - compiler: msvc
 
   install:
-    - echo installing nothing
+    - git clone --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
+    - cd c:\projects\postgresql
+    - appveyor-retry cinst winflexbison
+    - rename c:\ProgramData\chocolatey\bin\win_flex.exe flex.exe
+    - rename c:\ProgramData\chocolatey\bin\win_bison.exe bison.exe
+    #### - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
+    #### - '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_amd64'
+
+  before_build:
+    - perl src/tools/msvc/mkvcbuild.pl
+
+  build:
+    project: pgsql.sln
+
+  after_build:
+    - dir
+
+  test_script:
+    - cd src/tools/msvc && vcregress check
+    - cd src/tools/msvc && vcregress ecpgcheck
+
+
+
+-
+# https://www.postgresql.org/message-id/attachment/109033/0001-AppVeyor-configuration-for-MinGW.patch
+#
+  matrix:
+    only:
+      - compiler: msys2
+
+  install:
+    - git clone --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
+    - cd c:\projects\postgresql
+    - set PATH=C:/msys64/usr/bin;%PATH%
+    - bash -login -c "pacman --noconfirm -S --needed ${MINGW_PACKAGE_PREFIX}-gettext ${MINGW_PACKAGE_PREFIX}-icu ${MINGW_PACKAGE_PREFIX}-libxml2 ${MINGW_PACKAGE_PREFIX}-libxslt ${MINGW_PACKAGE_PREFIX}-openssl"
+    - bash -login -c "curl -L http://cpanmin.us | perl - --self-upgrade"
+    - bash -login -c "cpanm --notest IPC::Run"
 
   build_script:
-    - echo building nothing
+    - set HOME=.
+    - set PATH=C:/msys64/usr/bin;%PATH%
+    - bash -login -c "gcc --version"
+    - bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
+    - if "%MSYSTEM%" = "MINGW32" bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
+    - if "%MSYSTEM%" = "MINGW64" bash -login -c "CFLAGS=\"-D WINVER=0x0600 -D _WIN32_WINNT=0x0600\" LIBS=\"-ladvapi32\" ./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
+    #### - bash -login -c "make world COPT=-Werror"
+    - bash -login -c "make world"
+    - dir
+
+  test_script:
+    - set HOME=.
+    - set PATH=C:/msys64/usr/bin;%PATH%
+    #### - bash -login -c "make check-world COPT=-Werror"
+
+  on_failure:
+    - set HOME=.
+    - bash -login -c "test -f config.status || cat config.log"
+    - bash -login -c "find . -name regression.diffs | xargs cat"
+
+
+-
+# https://www.postgresql.org/message-id/attachment/109032/0001-AppVeyor-configuration-for-Cygwin.patch
+#
+  matrix:
+    only:
+      - compiler: cygwin
+
+  environment:
+    CYG_MIRROR: http://cygwin.mirror.rafal.ca/
+    CYG_CACHE: C:/cygwin/var/cache/setup
+
+  install:
+    - git clone --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
+    - cd c:\projects\postgresql
+    - set PATH=%CYG_ROOT%/bin;%PATH%
+    - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
+    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P flex -P libreadline-devel -P libssl-devel -P libxml2-devel -P libxslt-devel -P openldap-devel -P zlib-devel'
+    - bash -login -c "cygserver-config --yes"
+    - bash -login -c "cygrunsrv -S cygserver"
+
+  build_script:
+    - set HOME=.
+    - set PATH=%CYG_ROOT%/bin;%PATH%
+    - bash -login -c "gcc --version"
+    - bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --with-ldap --with-libxml --with-libxslt --with-openssl"
+    #### - bash -login -c "make world COPT=-Werror"
+    - bash -login -c "make world"
+    - dir
+
+  test_script:
+    - set HOME=.
+    - set PATH=%CYG_ROOT%/bin;%PATH%
+    - bash -login -c "make check-world COPT=-Werror"
+
+  on_failure:
+    - set HOME=.
+    - bash -login -c "test -f config.status || cat config.log"
+    - bash -login -c "find . -name regression.diffs | xargs cat"
+
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
