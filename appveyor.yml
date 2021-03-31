@@ -51,6 +51,13 @@
 # and its run 
 # https://ci.appveyor.com/project/AndreMikulec/plr/builds/38431791/job/ah2pwypilr2rf40l?fullLog=true
 
+# also help 5 of 5
+# Mikhail Titov
+# FEB 2021 BUILD (and "master" JOB) WORKS
+# https://github.com/arkhipov/temporal_tables/blob/3ce22da51f2549e8f8b8fbf2850c63eb3a2f1fbb/appveyor.yml
+# FEB 2021 BUILD
+# https://ci.appveyor.com/project/arkhipov/temporal-tables/builds/37866474
+
 
 
 version: 1.0.{build}.{branch}
@@ -79,8 +86,9 @@ environment:
   - compiler: msvc
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     PlatformToolset: v141
-    configuration: Release
+    configuration: Debug
     platform: x64
+          pg: master
   - compiler: msys2
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     MSYSTEM: MINGW32
@@ -116,19 +124,19 @@ for:
       - compiler: msvc
 
   install:
-    - git clone --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
+    - git clone -q --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
     - cd c:\projects\postgresql
     - appveyor-retry cinst winflexbison
     - rename c:\ProgramData\chocolatey\bin\win_flex.exe flex.exe
     - rename c:\ProgramData\chocolatey\bin\win_bison.exe bison.exe
-    #### - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
-    #### - '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_amd64'
+    - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
+    - '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_amd64'
 
   before_build:
     - perl src/tools/msvc/mkvcbuild.pl
 
   build:
-    project: pgsql.sln
+    project: c:\projects\postgresql\pgsql.sln
 
   after_build:
     - dir
@@ -159,16 +167,23 @@ for:
     - set PATH=C:/msys64/usr/bin;%PATH%
     - bash -login -c "gcc --version"
     - bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
-    - if "%MSYSTEM%" = "MINGW32" bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
-    - if "%MSYSTEM%" = "MINGW64" bash -login -c "CFLAGS=\"-D WINVER=0x0600 -D _WIN32_WINNT=0x0600\" LIBS=\"-ladvapi32\" ./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
-    #### - bash -login -c "make world COPT=-Werror"
+    - if "%MSYSTEM%" == "MINGW32" bash -login -c "./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
+    - if "%MSYSTEM%" == "MINGW64" bash -login -c "CFLAGS=\"-D WINVER=0x0600 -D _WIN32_WINNT=0x0600\" LIBS=\"-ladvapi32\" ./configure --enable-cassert --enable-debug --enable-nls --enable-tap-tests --with-icu --with-ldap --with-libxml --with-libxslt --with-openssl"
+    - bash -login -c "gcc --version"
+    #### - bash -login -c "make"
     - bash -login -c "make world"
+    #### - bash -login -c "make world COPT=-Werror"
     - dir
 
   test_script:
     - set HOME=.
     - set PATH=C:/msys64/usr/bin;%PATH%
+    #### - bash -login -c "make check"
+    - bash -login -c "make check-world"
     #### - bash -login -c "make check-world COPT=-Werror"
+    - bash -login -c "make install"
+    - bash -login -c "make installcheck"
+    - bash -login -c "make installcheck-world"
 
   on_failure:
     - set HOME=.
