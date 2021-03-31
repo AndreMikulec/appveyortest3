@@ -123,13 +123,11 @@ for:
       - compiler: msvc
 
   install:
-    - git clone -q --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git c:\projects\postgresql
-    - cd c:\projects\postgresql
+    - git clone -q --depth 1 --single-branch --branch=master https://git.postgresql.org/git/postgresql.git
     - appveyor-retry cinst winflexbison
     - rename c:\ProgramData\chocolatey\bin\win_flex.exe flex.exe
     - rename c:\ProgramData\chocolatey\bin\win_bison.exe bison.exe
-    - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
-    - '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86_amd64'
+    - pushd c:\projects\postgresql
 
   before_build:
     - perl src/tools/msvc/mkvcbuild.pl
